@@ -1,5 +1,16 @@
 // REWRITTEN TO TAKE ADVANTAGE OF CLOSURES
 const $ = (id) => document.getElementById(id)
+let speed = 2000
+
+const getSpeed = function () {
+    speed = this.speed
+}
+
+function setSpeed() {
+    speed = prompt(`Current speed is ${speed}. Please enter new speed`);
+    //timer = setInterval(displayNextImage, speed)
+    return speed
+}
 
 const createSlideshow = function () {
     // PRIVATE VARIABLES AND FUNCTIONS
@@ -8,6 +19,7 @@ const createSlideshow = function () {
     let nodes = { image: null, caption: null }
     let img = { cache: [], counter: 0 }
     
+
     const stopSlideShow = function () {
         clearInterval(timer)
     }
@@ -24,6 +36,7 @@ const createSlideshow = function () {
     }
 
     const setPlayText = function (btn) {
+
         if (play) {
             btn.value = 'Resume'
         } else {
@@ -47,7 +60,7 @@ const createSlideshow = function () {
                 nodes.image = arguments[0]
                 nodes.caption = arguments[1]
             }
-            timer = setInterval(displayNextImage, 2000)
+            timer = setInterval(displayNextImage, speed)
             return this
         },
         createToggleHandler: function () {
@@ -56,11 +69,15 @@ const createSlideshow = function () {
             return function () {
                 // 'THIS' IS THE CLICKED BUTTON
                 // 'ME' IS THE OBJECT LITERAL
+                if (speed) {
+                    speed = setSpeed();
+                }
                 if (play) {
                     stopSlideShow();
-                } else {
+                } else  {
                     me.startSlideShow();
                 }
+
                 setPlayText(this)
                 // TOGGLE PLAY 'FLAG'
                 play = !play
@@ -85,4 +102,5 @@ window.addEventListener('load', () => {
     slideshow.loadImages(slides).startSlideShow($('image'), $('caption'))
     // PAUSE THE SLIDESHOW
     $('play_pause').onclick = slideshow.createToggleHandler()
+    $('setSpeed').onclick = setSpeed()
 })
