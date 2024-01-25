@@ -11,9 +11,12 @@ let customerCount = 0
 
 function getName() {
   let custName = prompt("Please enter your name");
+  balance = 0
+  deposit = 0
+  withdraw = 0
   $('name').innerHTML = custName
   $('name').value= custName
-  $('name').focus()
+  $('addForm').focus()
 }
 function getDeposit() {
   let deposit = prompt("Please enter your deposit", 0);
